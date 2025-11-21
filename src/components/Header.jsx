@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -34,8 +35,6 @@ function Header() {
     <header className="header">
       <div className="container">
         <div className="left_icons">
-          
-
           <div className="user-dropdown-container" ref={menuRef}>
             <button 
               className="icon user-btn" 
@@ -43,7 +42,6 @@ function Header() {
             >
               <img className="user_icon" src="/images/PNG/User.png" alt="User" />
             </button>
-
 
             {isOpen && (
               <div className="user-dropdown-menu">
@@ -59,19 +57,16 @@ function Header() {
             )}
           </div>
 
-
           <button className="icon">
             <img className="shop_icon" src="/images/PNG/shopping-cart.png" alt="Cart" />
             <span className="cart-count">0</span>
           </button>
 
-     
           <button id="btn_search" className="icon" onClick={goToSearch}>
             <img className="search_icon" src="/images/PNG/search-normal.png" alt="Search" />
           </button>
         </div>
 
- 
         <nav className="menu">
           <ul className="menu__link">
             <li className="menu__link--item"><a href="#">تماس با ما</a></li>
@@ -87,7 +82,16 @@ function Header() {
               </ul>
             </li>
             <li className="menu__link--item">
-              <a href="#" className="menu-food" onClick={goToMenu}>منو</a>
+              <a 
+                href="#" 
+                className={location.pathname === '/menu' ? 'menu-food active' : 'menu-food'}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goToMenu();
+                }}
+              >
+                منو
+              </a>
               <ul className="sub__foods">
                 <li><a href="#">غذای اصلی</a></li>
                 <li><a href="#">پیش‌غذا</a></li>
@@ -96,7 +100,7 @@ function Header() {
               </ul>
             </li>
             <li className="menu__link--item">
-              <a href="/" className="active">صفحه اصلی</a>
+              <a href="/" className={location.pathname === '/' ? 'active' : ''}>صفحه اصلی</a>
             </li>
           </ul>
         </nav>
